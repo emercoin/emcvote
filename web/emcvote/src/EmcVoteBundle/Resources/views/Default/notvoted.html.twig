@@ -1,0 +1,24 @@
+<md-dialog layout-padding aria-label="List dialog">
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div layout="row" layout-align="center center" ng-hide="!model.isLoading">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div layout="row" layout-align="center" ng-show="(notVoted.length < 1 && !model.isLoading)">
+                <h2>Nothing to show</h2>
+            </div>
+            <table class="mui-table" ng-hide="notVoted.length < 1">
+                <thead>
+                <tr>
+                    <th>Who</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="vote in notVoted">
+                    <td>{[{ vote.whoaddr }]}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </md-dialog-content>
+</md-dialog>

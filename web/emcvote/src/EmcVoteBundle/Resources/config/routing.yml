@@ -1,0 +1,3 @@
+_api:
+    type:       rest
+    resource:   EmcVoteBundle\Controller\ApiController

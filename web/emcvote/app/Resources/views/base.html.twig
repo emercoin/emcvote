@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="//cdn.muicss.com/mui-0.9.1/css/mui.css">
+    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}EmcVote{% endblock %}</title>
+    <style>
+        .listdemoBasicUsage md-divider {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .sidebar {
+            padding: 0 12px;
+        }
+
+        .sidebar md-radio-button {
+            padding: 5px 0;
+        }
+
+        .loader {
+            height: 100%;
+            position: relative;
+        }
+    </style>
+</head>
+<body ng-app="EmcVote" ng-cloak>
+{% block body %}{% endblock %}
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+<script type="text/javascript">
+    angular.module('EmcVote', ['ngMaterial', 'ngMessages'])
+            .config(function ($interpolateProvider, $mdThemingProvider, $mdIconProvider) {
+                $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+                $mdThemingProvider.theme('default');
+            })
+            .controller('AppCtrl', function ($scope, $http, $mdDialog, $mdSidenav) {
+                var campaignId = null;
+                $scope.model = {
+                    selectedCampaign: null,
+                    isLoading: false
+                };
+                $scope.campaigns = [];
+                $scope.candidates = [];
+                $scope.toggleCampaign = buildToggler('left');
+                $scope.getCandidates = function () {
+                    $scope.model.isLoading = true;
+                    $scope.candidates = []; // reset
+                    buildToggler('left')();
+                    campaignId = $scope.campaigns[$scope.model.selectedCampaign].campaign_id;
+                    $http.get('/api/candidates.json', {params: {campaignId: campaignId}}).success(function (data) {
+                        $scope.candidates = data;
+                        $scope.model.isLoading = false;
+                    });
+                };
+
+                $http.get('/api/campaigns.json').success(function (data) {
+                    $scope.campaigns = data;
+                });
+
+                function buildToggler (componentId) {
+                    return function () {
+                        $mdSidenav(componentId).toggle();
+                    }
+                }
+
+                $scope.showVotes = function (ev, candidateId) {
+                    $mdDialog.show({
+                        controller: 'VotesCtrl',
+                        templateUrl: '/api/tmpl/vote-popup.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        locals: {
+                            params: {
+                                candidateId: candidateId,
+                                campaignId: campaignId
+                            }
+                        }
+                    });
+                };
+
+                $scope.showNotVoted = function (ev) {
+                    $mdDialog.show({
+                        controller: 'NotVotedCtrl',
+                        templateUrl: '/api/tmpl/not-voted-popup.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        locals: {
+                            params: {
+                                campaignId: campaignId
+                            }
+                        }
+                    });
+                };
+            })
+            .controller('VotesCtrl', function ($scope, $http, params) {
+                $scope.model = {
+                    isLoading: true
+                };
+                $scope.votes = [];
+                $http.get('/api/votes.json', {
+                    params: {
+                        candidateId: params.candidateId,
+                        campaignId: params.campaignId
+                    }
+                }).success(function (data) {
+                    $scope.votes = data;
+                    $scope.model.isLoading = false;
+                });
+            })
+            .controller('NotVotedCtrl', function ($scope, $http, params) {
+                $scope.model = {
+                    isLoading: true
+                };
+                $scope.notVoted = [];
+                $http.get('/api/not/voted.json', {
+                    params: {
+                        campaignId: params.campaignId
+                    }
+                }).success(function (data) {
+                    $scope.notVoted = data;
+                    $scope.model.isLoading = false;
+                });
+            });
+</script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

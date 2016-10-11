@@ -1,0 +1,39 @@
+<?php
+
+namespace EmcVoteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Wallet
+ *
+ * @ORM\Table(name="Wallet")
+ * @ORM\Entity
+ */
+class Wallet
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="StartB", type="string", length=64, nullable=false)
+     */
+    private $startb;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LastB", type="string", length=64, nullable=false)
+     */
+    private $lastb;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="Id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}

@@ -1,0 +1,12 @@
+emc_vote:
+    resource: "@EmcVoteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+emc_rest_api:
+    prefix:     /api
+    resource:   "@EmcVoteBundle/Resources/config/routing.yml"
+
+#app:
+#    resource: "@AppBundle/Controller/"
+#    type:     annotation
