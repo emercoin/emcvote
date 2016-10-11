@@ -28,6 +28,8 @@ class Campaign
      * @var \DateTime
      *
      * @ORM\Column(name="Start", type="datetime", nullable=false)
+     *
+     * @JMS\Type("DateTime<'U'>")
      */
     private $start;
 
@@ -35,6 +37,8 @@ class Campaign
      * @var \DateTime
      *
      * @ORM\Column(name="Finish", type="datetime", nullable=false)
+     *
+     * @JMS\Type("DateTime<'U'>")
      */
     private $finish;
 

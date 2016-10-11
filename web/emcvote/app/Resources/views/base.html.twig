@@ -46,6 +46,7 @@
                     selectedCampaign: null,
                     isLoading: false
                 };
+                $scope.notVotedInfo = '';
                 $scope.campaigns = [];
                 $scope.candidates = [];
                 $scope.toggleCampaign = buildToggler('left');
@@ -53,10 +54,21 @@
                     $scope.model.isLoading = true;
                     $scope.candidates = []; // reset
                     buildToggler('left')();
-                    campaignId = $scope.campaigns[$scope.model.selectedCampaign].campaign_id;
+                    campaignId = $scope.model.selectedCampaign.campaign_id;
                     $http.get('/api/candidates.json', {params: {campaignId: campaignId}}).success(function (data) {
                         $scope.candidates = data;
                         $scope.model.isLoading = false;
+
+                        var voted = 0;
+                        var votedPercents = 0;
+
+                        $scope.candidates.forEach(function(v,k) {
+                            voted += +v.voices;
+                            votedPercents += +v.percents;
+                        });
+
+                        var camp = $scope.model.selectedCampaign;
+                        $scope.notVotedInfo = '('+(camp.ballots - voted) + ' | ' + (100 - votedPercents)+'%)';
                     });
                 };
 
@@ -70,7 +82,7 @@
                     }
                 }
 
-                $scope.showVotes = function (ev, candidateId) {
+                $scope.showVotes = function (ev, candidate) {
                     $mdDialog.show({
                         controller: 'VotesCtrl',
                         templateUrl: '/api/tmpl/vote-popup.html',
@@ -79,7 +91,7 @@
                         clickOutsideToClose: true,
                         locals: {
                             params: {
-                                candidateId: candidateId,
+                                candidate: candidate,
                                 campaignId: campaignId
                             }
                         }
@@ -100,15 +112,30 @@
                         }
                     });
                 };
+
+                $scope.campaignFilter = function (type) {
+                    return function (input) {
+                        var currentDate = new Date().getTime() / 1000;
+                        var finishDate = input.finish;
+                        switch (type) {
+                            case 'current':
+                                return finishDate > currentDate;
+                                break;
+                            case 'finished':
+                                return finishDate < currentDate;
+                        }
+                    }
+                }
             })
             .controller('VotesCtrl', function ($scope, $http, params) {
                 $scope.model = {
                     isLoading: true
                 };
+                $scope.candidate = params.candidate;
                 $scope.votes = [];
                 $http.get('/api/votes.json', {
                     params: {
-                        candidateId: params.candidateId,
+                        candidateId: params.candidate.to_id,
                         campaignId: params.campaignId
                     }
                 }).success(function (data) {

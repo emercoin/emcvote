@@ -1,6 +1,11 @@
 <md-dialog layout-padding aria-label="List dialog">
     <md-dialog-content>
         <div class="md-dialog-content">
+            <h3>{[{ candidate.name }]}</h3>
+            <h4>{[{ candidate.description }]}</h4>
+
+            <p>Address: {[{ candidate.addr }]}</p>
+
             <div layout="row" layout-align="center center" ng-hide="!model.isLoading">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
@@ -11,7 +16,7 @@
                 <thead>
                 <tr>
                     <th>Who</th>
-                    <th>Transaction Verifid by</th>
+                    <th>Transaction ID</th>
                 </tr>
                 </thead>
                 <tbody>

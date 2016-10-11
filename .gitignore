@@ -1,0 +1,14 @@
+.idea/
+web/emcvote/web/bundles/
+web/emcvote/app/bootstrap.php.cache
+web/emcvote/app/cache/*
+web/emcvote/app/config/parameters.yml
+web/emcvote/app/logs/*
+!web/emcvote/app/cache/.gitkeep
+!web/emcvote/app/logs/.gitkeep
+web/emcvote/app/phpunit.xml
+web/emcvote/build/
+web/emcvote/vendor/
+web/emcvote/bin/
+composer.phar
+*~
