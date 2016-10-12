@@ -5,7 +5,7 @@
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <md-button aria-label="Choose Campaign" ng-click="toggleCampaign()">
-                        All Campaigns
+                        Все кампании
                     </md-button>
                     <h3>
                         <span>{[{ model.selectedCampaign.description }]}</span>
@@ -13,17 +13,17 @@
                     <span flex></span>
                     <md-button ng-click="showNotVoted(campaigns[model.selectedCampaign].campaign_id)"
                                ng-show="model.selectedCampaign != null" class="md-raised" aria-label="Learn More">
-                        Not voted {[{ notVotedInfo }]}
+                        Не голосовало {[{ notVotedInfo }]}
                     </md-button>
                 </div>
             </md-toolbar>
             <md-sidenav class="md-sidenav-left" md-is-open="true" md-component-id="left" md-disable-backdrop
                         md-whiteframe="4">
                 <md-toolbar class="md-theme-indigo">
-                    <h1 class="md-toolbar-tools">Available Campaigns</h1>
+                    <h1 class="md-toolbar-tools">Все кампании</h1>
                 </md-toolbar>
                 <div ng-show="(campaigns | filter:campaignFilter('current')).length > 0">
-                    <md-subheader class="md-no-sticky">Choose the campaign</md-subheader>
+                    <md-subheader class="md-no-sticky">Выберите кампанию</md-subheader>
                     <md-content layout-margin class="sidebar">
                         <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
                             <md-radio-button
@@ -56,7 +56,7 @@
                 </div>
                 <md-content>
                     <md-button ng-click="toggleCampaign()" class="md-accent">
-                        Close
+                        Закрыть
                     </md-button>
                 </md-content>
             </md-sidenav>
@@ -64,11 +64,11 @@
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
             <div layout="row" class="loader" layout-align="center" ng-hide="candidates.length > 0">
-                <h2>Nothing to show</h2>
+                <h2>Нет данных</h2>
             </div>
             <md-content>
                 <md-list flex ng-hide="candidates.length < 1">
-                    <md-subheader class="md-no-sticky">Total candidates: {[{ candidates.length }]}</md-subheader>
+                    <md-subheader class="md-no-sticky">Всего кандидатов: {[{ candidates.length }]}</md-subheader>
                     <md-list-item class="md-3-line"
                                   ng-repeat="candidate in candidates | orderBy:'-percents'"
                                   ng-click="showVotes($event, candidate)">
@@ -77,13 +77,13 @@
                                 <h3>{[{ candidate.name }]}</h3>
                                 <h4>{[{ candidate.description }]}</h4>
 
-                                <p>Address: {[{ candidate.addr }]}</p>
+                                <p>Адрес: {[{ candidate.addr }]}</p>
                             </div>
                             <div flex flex-gt-sm="25">
                                 <h1>{[{ candidate.percents }]}%</h1>
                             </div>
                             <div flex flex-gt-sm="25">
-                                <h1>{[{ candidate.voices }]} Vote(s)</h1>
+                                <h1>{[{ candidate.voices }]} проголосовало</h1>
                             </div>
                         </div>
                     </md-list-item>

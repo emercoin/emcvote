@@ -4,19 +4,19 @@
             <h3>{[{ candidate.name }]}</h3>
             <h4>{[{ candidate.description }]}</h4>
 
-            <p>Address: {[{ candidate.addr }]}</p>
+            <p>Адрес: {[{ candidate.addr }]}</p>
 
             <div layout="row" layout-align="center center" ng-hide="!model.isLoading">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
             <div layout="row" layout-align="center" ng-show="(votes.length < 1 && !model.isLoading)">
-                <h2>Nothing to show</h2>
+                <h2>Нет данных</h2>
             </div>
             <table class="mui-table" ng-hide="votes.length < 1">
                 <thead>
                 <tr>
-                    <th>Who</th>
-                    <th>Transaction ID</th>
+                    <th>Адрес</th>
+                    <th>Транзакция</th>
                 </tr>
                 </thead>
                 <tbody>
