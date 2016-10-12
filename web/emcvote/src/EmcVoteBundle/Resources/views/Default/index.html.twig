@@ -5,6 +5,7 @@
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <md-button aria-label="Choose Campaign" ng-click="toggleCampaign()">
+                        <img src="/rost.jpg" alt="Партия Роста">
                         Все кампании
                     </md-button>
                     <h3>
@@ -20,7 +21,7 @@
             <md-sidenav class="md-sidenav-left" md-is-open="true" md-component-id="left" md-disable-backdrop
                         md-whiteframe="4">
                 <md-toolbar class="md-theme-indigo">
-                    <h1 class="md-toolbar-tools">Все кампании</h1>
+                    <h1 class="md-toolbar-tools"><img src="/rost.jpg" alt="Партия Роста">&nbsp;Все кампании</h1>
                 </md-toolbar>
                 <div ng-show="(campaigns | filter:campaignFilter('current')).length > 0">
                     <md-subheader class="md-no-sticky">Выберите кампанию</md-subheader>
@@ -39,7 +40,7 @@
                     </md-content>
                 </div>
                 <div ng-show="(campaigns | filter:campaignFilter('finished')).length > 0">
-                    <md-subheader class="md-no-sticky">Finished campaigns</md-subheader>
+                    <md-subheader class="md-no-sticky">Завершенные кампании</md-subheader>
                     <md-content layout-margin class="sidebar">
                         <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
                             <md-radio-button
