@@ -36,14 +36,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 <script type="text/javascript">
     angular.module('EmcVote', ['ngMaterial', 'ngMessages'])
-            .config(function ($interpolateProvider, $mdThemingProvider, $mdIconProvider) {
+            .config(function ($interpolateProvider, $mdThemingProvider) {
                 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
                 $mdThemingProvider.theme('default');
             })
-            .controller('AppCtrl', function ($scope, $http, $mdDialog, $mdSidenav) {
+            .controller('AppCtrl', function ($scope, $http, $mdDialog, $mdSidenav,$mdComponentRegistry) {
                 var campaignId = null;
                 $scope.model = {
-                    selectedCampaign: null,
+                    selectedCampaign: rememberCampaign(),
                     isLoading: false
                 };
                 $scope.notVotedInfo = '';
@@ -53,12 +53,14 @@
                 $scope.getCandidates = function () {
                     $scope.model.isLoading = true;
                     $scope.candidates = []; // reset
-                    buildToggler('left')();
+                    $mdComponentRegistry.when('left').then(function(it) {
+                        it.close();
+                    });
                     campaignId = $scope.model.selectedCampaign.campaign_id;
                     $http.get('/api/candidates.json', {params: {campaignId: campaignId}}).success(function (data) {
                         $scope.candidates = data;
                         $scope.model.isLoading = false;
-
+                        rememberCampaign($scope.model.selectedCampaign);
                         var voted = 0;
                         var votedPercents = 0;
 
@@ -74,11 +76,26 @@
 
                 $http.get('/api/campaigns.json').success(function (data) {
                     $scope.campaigns = data;
+                    if ($scope.model.selectedCampaign) {
+                        $scope.campaigns.forEach(function(v) {
+                            if (v.campaign_id == $scope.model.selectedCampaign.campaign_id) {
+                                $scope.model.selectedCampaign = v;
+                            }
+                        });
+                    }
                 });
 
                 function buildToggler (componentId) {
                     return function () {
                         $mdSidenav(componentId).toggle();
+                    }
+                }
+
+                function rememberCampaign(campaign) {
+                    if(!!campaign) {
+                        localStorage.campaign = angular.toJson(campaign);
+                    } else {
+                        return localStorage.campaign ? angular.fromJson(localStorage.campaign) : null;
                     }
                 }
 
@@ -124,7 +141,15 @@
                             case 'finished':
                                 return finishDate < currentDate;
                         }
-                    }
+                    };
+                };
+
+                if ($scope.model.selectedCampaign) {
+                    $scope.getCandidates();
+                } else {
+                    $mdComponentRegistry.when('left').then(function(it) {
+                        it.open();
+                    });
                 }
             })
             .controller('VotesCtrl', function ($scope, $http, params) {

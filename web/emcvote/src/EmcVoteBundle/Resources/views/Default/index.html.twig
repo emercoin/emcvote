@@ -8,7 +8,9 @@
                         Choose Campaign
                     </md-button>
                     <h3>
-                        <span>{[{ model.selectedCampaign.description }]}</span>
+                        <a ng-click="getCandidates()" style="text-decoration: none; color: #fff; cursor: pointer;">
+                            <span>{[{ model.selectedCampaign.description }]}</span>
+                        </a>
                     </h3>
                     <span flex></span>
                     <md-button ng-click="showNotVoted(campaigns[model.selectedCampaign].campaign_id)"
@@ -17,7 +19,7 @@
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-sidenav class="md-sidenav-left" md-is-open="true" md-component-id="left" md-disable-backdrop
+            <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop
                         md-whiteframe="4">
                 <md-toolbar class="md-theme-indigo">
                     <h1 class="md-toolbar-tools">Available Campaigns</h1>
@@ -45,6 +47,7 @@
                             <md-radio-button
                                     ng-repeat="item in campaigns | filter:campaignFilter('finished') | orderBy:'-start'"
                                     ng-value="item"
+                                    ng-checked="model.selectedCampaign"
                                     class="md-primary">
                                 <h4>{[{item.description}]}</h4>
                                 <p style="font-size: 9pt; color: #929292;">
