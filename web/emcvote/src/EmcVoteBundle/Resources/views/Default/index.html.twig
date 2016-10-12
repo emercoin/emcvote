@@ -39,7 +39,7 @@
                     </md-content>
                 </div>
                 <div ng-show="(campaigns | filter:campaignFilter('finished')).length > 0">
-                    <md-subheader class="md-no-sticky">Finished campaigns</md-subheader>
+                    <md-subheader class="md-no-sticky">Завершенные кампании</md-subheader>
                     <md-content layout-margin class="sidebar">
                         <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
                             <md-radio-button
