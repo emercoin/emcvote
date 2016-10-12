@@ -21,7 +21,11 @@ class ApiController extends FOSRestController
      */
     public function cgetCampaignsAction()
     {
-        return $this->getDoctrine()->getRepository('EmcVoteBundle:Campaign')->findAll();
+        $campaigns = $this->getDoctrine()
+            ->getManager()
+            ->createQuery('SELECT e FROM EmcVoteBundle:Campaign e LEFT JOIN EmcVoteBundle:Votes v WITH v.campaignId = e.campaignId WHERE e.start < CURRENT_TIMESTAMP()')
+            ->getResult();
+        return $campaigns;
     }
 
     /**
@@ -45,16 +49,16 @@ class ApiController extends FOSRestController
 
         $sql = "SELECT
 	count(v.toID) as voices,
-	FORMAT(count(v.toID) * 100 / c.Ballots, 0) as percents,
+	FORMAT(count(v.toID) * 100 / c.Ballots, 2) as percents,
 	ct.ToName as name,
 	ct.ToDesc as description,
 	ct.ToAddr as addr,
 	ct.ToID as to_id
 	from CampTo as ct
-	left outer join Votes as v on ct.ToID = v.ToID
 	left outer join Camp as c on ct.CampID = c.CampID
+	left outer join Votes as v on ct.ToID = v.ToID and ct.CampID = v.CampID
 	where ct.CampID = ?
-	group by ct.ToAddr;";
+	group by ct.ToAddr";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(1, $campaignId);

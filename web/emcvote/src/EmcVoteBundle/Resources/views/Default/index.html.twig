@@ -8,28 +8,53 @@
                         Choose Campaign
                     </md-button>
                     <h3>
-                        <span>{[{ campaigns[model.selectedCampaign].description }]}</span>
+                        <span>{[{ model.selectedCampaign.description }]}</span>
                     </h3>
                     <span flex></span>
-                    <md-button  ng-click="showNotVoted(campaigns[model.selectedCampaign].campaign_id)" ng-show="model.selectedCampaign != null" class="md-raised" aria-label="Learn More">
-                        Not voted
+                    <md-button ng-click="showNotVoted(campaigns[model.selectedCampaign].campaign_id)"
+                               ng-show="model.selectedCampaign != null" class="md-raised" aria-label="Learn More">
+                        Not voted {[{ notVotedInfo }]}
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-sidenav class="md-sidenav-left" md-is-open="true" md-component-id="left" md-disable-backdrop md-whiteframe="4">
+            <md-sidenav class="md-sidenav-left" md-is-open="true" md-component-id="left" md-disable-backdrop
+                        md-whiteframe="4">
                 <md-toolbar class="md-theme-indigo">
                     <h1 class="md-toolbar-tools">Available Campaigns</h1>
                 </md-toolbar>
-                <md-subheader class="md-no-sticky">Choose the campaign</md-subheader>
-                <md-content layout-margin class="sidebar">
-                    <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
-                        <md-radio-button ng-repeat="item in campaigns | orderBy:'-start'"
-                                         ng-value="{[{$index}]}"
-                                         value="{[{item.campaign_id}]}"
-                                         class="md-primary">
-                            {[{item.description}]}
-                        </md-radio-button>
-                    </md-radio-group>
+                <div ng-show="(campaigns | filter:campaignFilter('current')).length > 0">
+                    <md-subheader class="md-no-sticky">Choose the campaign</md-subheader>
+                    <md-content layout-margin class="sidebar">
+                        <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
+                            <md-radio-button
+                                    ng-repeat="item in campaigns | filter:campaignFilter('current') | orderBy:'-start'"
+                                    ng-value="item"
+                                    class="md-primary">
+                                <h4>{[{item.description}]}</h4>
+                                <p style="font-size: 9pt; color: #929292;">
+                                    {[{ (item.start*1000) | date:'yyyy.MM.dd HH:mm:ss' }]} - {[{ (item.finish*1000) | date:'yyyy.MM.dd HH:mm:ss' }]}
+                                </p>
+                            </md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                </div>
+                <div ng-show="(campaigns | filter:campaignFilter('finished')).length > 0">
+                    <md-subheader class="md-no-sticky">Finished campaigns</md-subheader>
+                    <md-content layout-margin class="sidebar">
+                        <md-radio-group ng-model="model.selectedCampaign" ng-change="getCandidates()">
+                            <md-radio-button
+                                    ng-repeat="item in campaigns | filter:campaignFilter('finished') | orderBy:'-start'"
+                                    ng-value="item"
+                                    class="md-primary">
+                                <h4>{[{item.description}]}</h4>
+                                <p style="font-size: 9pt; color: #929292;">
+                                    {[{ (item.start*1000) | date:'yyyy.MM.dd HH:mm:ss' }]} - {[{ (item.finish*1000) | date:'yyyy.MM.dd HH:mm:ss' }]}
+                                </p>
+                            </md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                </div>
+                <md-content>
                     <md-button ng-click="toggleCampaign()" class="md-accent">
                         Close
                     </md-button>
@@ -46,7 +71,7 @@
                     <md-subheader class="md-no-sticky">Total candidates: {[{ candidates.length }]}</md-subheader>
                     <md-list-item class="md-3-line"
                                   ng-repeat="candidate in candidates | orderBy:'-percents'"
-                                  ng-click="showVotes($event, candidate.to_id)">
+                                  ng-click="showVotes($event, candidate)">
                         <div class="md-list-item-text" layout="row">
                             <div flex flex-gt-sm="50">
                                 <h3>{[{ candidate.name }]}</h3>
