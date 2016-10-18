@@ -1,0 +1,27 @@
+# Test campaing
+#
+
+.Camp
+Descr	=	Выбор спикера
+ID	=	2
+Start	=	2016-01-01
+Finish	=	2017-01-01
+
+.Select
+dev-01:Petrov	= Петров - голосуйте за стабильность!
+dev-01:Ivanov   = Иванов - голосуйте за новизну!
+dev-01:Sidorov  = Сидоров - голосуйте за меня!
+dev-01:AgAll	= Против всех (иной)
+
+
+.Votes
+EXiVipCM3LPFnED84X1m6UBhqGHGN2hrf1
+Ecok5V8X5fWqSLPDxfe2FjG3aRC3vbBVuc
+EJy8n4YdxJTPCypGGA4YZH8VZ4EpH9i4jo
+EWwwTaDFa685paaf8dD9hERjDAtJVq7XxW
+EPXBMWmYK2jTy6VGDybVR1LYgDqkWBncWq
+ETxQRC2y3c63S1EQnRCk3yMEwQ9nFXhcPD
+EYfDaFU44bvQcAuj69tTDHv2GpRxHfS2di
+ERteJoJwkRD4JnXMowKme6mMNHnuZyAbJP
+ESyXTsMKLQY3VaJSPVG8P9r594XouxWYjy
+
