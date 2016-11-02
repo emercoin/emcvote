@@ -1,0 +1,56 @@
+#################
+# PREREQUISITES #
+#################
+
+  - Ubuntu 16.04 / RHEL 7 / CentOS 7
+  - MySQL Server
+  - PHP >= 5.5
+  - Emercoind
+  - Apache
+
+
+###########################################
+# HOW TO UPGRADE RHEL/CENTOS 7 TO PHP 5.5 #
+###########################################
+
+For RHEL 7:
+-----------
+  subscription-manager repos --enable rhel-server-rhscl-7-eus-rpms
+  yum install php55 php55-php php55-php-gd php55-php-mbstring php55-php-mysqlnd
+  mv /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php54.off
+  mv /etc/httpd/conf.modules.d/10-php.conf /etc/httpd/conf.modules.d/10-php54.off
+  cp /opt/rh/httpd24/root/etc/httpd/conf.d/php55-php.conf /etc/httpd/conf.d/
+  cp /opt/rh/httpd24/root/etc/httpd/conf.modules.d/10-php55-php.conf /etc/httpd/conf.modules.d/
+  cp /opt/rh/httpd24/root/etc/httpd/modules/libphp55-php5.so /etc/httpd/modules/
+  service httpd restart
+
+For CentOS 7:
+-------------
+  yum install centos-release-scl
+  yum install php55 php55-php php55-php-gd php55-php-mbstring php55-php-mysqlnd
+  mv /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php54.off
+  mv /etc/httpd/conf.modules.d/10-php.conf /etc/httpd/conf.modules.d/10-php54.off
+  cp /opt/rh/httpd24/root/etc/httpd/conf.d/php55-php.conf /etc/httpd/conf.d/
+  cp /opt/rh/httpd24/root/etc/httpd/conf.modules.d/10-php55-php.conf /etc/httpd/conf.modules.d/
+  cp /opt/rh/httpd24/root/etc/httpd/modules/libphp55-php5.so /etc/httpd/modules/
+  service httpd restart
+
+
+#################################
+# HOW TO INSTALL THE WEB ENGINE #
+#################################
+
+  - Copy all from web/emcvote to /var/www/emcvote
+  - Use web/config/apache2/emcvote.conf as a template configuration file for Apache
+  - Symfony initial preparation:
+      cd /var/www/emcvote
+      curl -sS https://getcomposer.org/installer | php
+      SYMFONY_ENV=prod php composer.phar update --no-dev --prefer-dist
+  - You have to run following cmdlets after every changing files in /var/www/emcvote:
+      php app/console cache:clear -e prod
+      php app/console assets:install -e prod
+
+IMPORTANT:
+If you have upgraded PHP as described above, you have to use "/opt/rh/php55/root/bin/php" instead of just "php" in this cmdlets.
+
+
