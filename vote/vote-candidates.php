@@ -43,7 +43,7 @@ while (($line = fgets($fh_in)) !== false) {
 
   if(preg_match('/^(\S+)\s*=\s*(.+)\s*/', $line, $tok)) {
     try {
-      $rc = $vote->emcReq('name_show', array("Xvote:" . $tok[1]));
+      $rc = $vote->emcReq('name_show', array("vote:" . $tok[1]));
       echo "ERROR: name already exists: $tok[1]\n";
       print_r($rc);
       exit;

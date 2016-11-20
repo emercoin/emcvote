@@ -4,7 +4,6 @@ return [
   // as specified in your emercoin.conf configuration file
   'wallet' => [
     'url'       => "http://emccoinrpc:hidden_pass_here@127.0.0.1:6662/",
-    'account'   => "vote",
     'sendfrom'	=> "Ballots",
     'minconf'	=> 1,
     'balptx'	=> 100,

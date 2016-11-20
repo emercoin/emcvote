@@ -85,7 +85,7 @@ while (($line = fgets($fh_in)) !== false) {
     $validres = $vote->emcReq('validateaddress', array($line));
     if($validres['isvalid']) {
       $vote_qty++;
-      $addr_buf[$line] = 0.03;
+      $addr_buf[$line] = 0.02;
       if(count($addr_buf) >= $cfg['wallet']['balptx'])
         SendBallots();
       
