@@ -1,0 +1,18 @@
+# Test campaing
+#
+
+.Camp
+Descr	=	Development_campaign
+ID	=	2
+Start	=	2016-01-01
+Finish	=	2017-01-01
+
+.Select
+dev-01:AgAll	= EMVBKz5qVFKAksWWtQJ9UUFC6iJRuFtzmN
+dev-01:Petrov	= EbZQyx5uPfHybw8FzW1jPCVwskruDdMPV3
+
+.Votes
+EXiVipCM3LPFnED84X1m6UBhqGHGN2hrf1
+Ecok5V8X5fWqSLPDxfe2FjG3aRC3vbBVuc
+EJy8n4YdxJTPCypGGA4YZH8VZ4EpH9i4jo
+

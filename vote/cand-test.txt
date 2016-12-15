@@ -1,0 +1,7 @@
+# Candidates
+#dev-01:Petrov	=	Test candidate Petrov
+#dev-01:AgAll	=	Test candidate Against_All
+# 2nd bath Candidates
+dev-01:Ivanov	=	Test candidate Ivanov
+dev-01:Sidorov	=	Test candidate Sidorov
+
